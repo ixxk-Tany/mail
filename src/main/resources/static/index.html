@@ -428,19 +428,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" id="name" class="form-control" placeholder="姓名" required="required">
+                            <input type="text" id="name" class="form-control" placeholder="您的姓名" required="required">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="email" id="email" class="form-control" placeholder="邮箱" required="required">
+                            <input type="email" id="email" class="form-control" placeholder="您的邮箱（方便回信）" required="required">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="内容"
+                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="内容（想说的话）"
                               required></textarea>
                     <p class="help-block text-danger"></p>
                 </div>
@@ -530,7 +530,7 @@
         $.ajax({
             url: "//39.97.229.2:8881/sys/mail/send",
             type: "post",
-            data: {toUser: email, subject: "发件人：" + name + ",内容：" + message},
+            data: {toUser: email,subject:"主页邮件", text: "发件人：" + name + ",内容：" + message},
             dataType: "json",
             success: function (res) {
                 alert(res.msg)

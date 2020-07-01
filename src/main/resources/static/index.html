@@ -513,7 +513,7 @@
         var name = $("#name").val();
         var email = $("#email").val();
         var message = $("#message").val();
-        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        var myreg = /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         if (name == "") {
             alert('提示\n\n请填写您的姓名!如: 谭勇');
             return;
@@ -528,9 +528,9 @@
             return;
         }
         $.ajax({
-            url: "http://39.97.229.2:8881/sys/mail/send",
+            url: "//39.97.229.2:8881/sys/mail/send",
             type: "post",
-            data: {toUser: email, subject: "发件人：" + name + ",内容：" + message}m
+            data: {toUser: email, subject: "发件人：" + name + ",内容：" + message},
             dataType: "json",
             success: function (res) {
                 alert(res.msg)
@@ -544,8 +544,8 @@
         var yearDiff = d.getFullYear() - strBirthdayArr[0];
         var monthDiff = d.getMonth() + 1 - strBirthdayArr[1];
         var dayDiff = d.getDate() - strBirthdayArr[2];
-        var age = monthDiff < 0 || (monthDiff == 0 && dayDiff < 0) ? yearDiff - 1 : yearDiff; //判断有没有到生日,没到就减1
-        return age = age < 0 ? 0 : age;
+        var age = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? yearDiff - 1 : yearDiff; //判断有没有到生日,没到就减1
+        return age < 0 ? 0 : age;
     }
 </script>
 </body>

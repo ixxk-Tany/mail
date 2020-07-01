@@ -9,5 +9,5 @@ public interface SendMailService {
 	 * @param subject 标题
 	 * @param text    内容（支持html格式）
 	 */
-	boolean sendMail(String toUser, String subject, String text);
+	boolean sendMail(String toUser, String subject, String text, String ip);
 }

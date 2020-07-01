@@ -8,6 +8,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * 邮件发送
@@ -37,10 +40,12 @@ public class SendMailServiceImpl implements SendMailService {
 	 * @return
 	 */
 	@Override
-	public boolean sendMail(String toUser, String subject, String text) {
+	public boolean sendMail(String toUser, String subject, String text, String ip) {
 		try {
+			Date now = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 			javax.mail.internet.MimeMessage message = javaMailSender.createMimeMessage();
-
+			text += ",ip:" + ip + ",时间：" + sdf.format(now);
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(serverMail);
 			helper.setTo(toUser);

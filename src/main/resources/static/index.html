@@ -507,6 +507,15 @@
             });
             $(".hover-bg .hover-text>i").css({'opacity': '1'});
         }
+        $.ajax({
+            url:"//39.97.229.2:8881/index/hello",
+            type:"post",
+            data:{},
+            dataType:"json",
+            success:function (res) {
+
+            }
+        })
     });
 
     function sendEmail() {
@@ -527,13 +536,14 @@
             alert('提示\n\n请说点儿什么吧!如: 你好啊!');
             return;
         }
+        alert("发送成功");
         $.ajax({
             url: "//39.97.229.2:8881/sys/mail/send",
             type: "post",
             data: {toUser: email,subject:"主页邮件", text: "发件人：" + name + ",内容：" + message},
             dataType: "json",
             success: function (res) {
-                alert(res.msg)
+
             }
         })
     }

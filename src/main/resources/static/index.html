@@ -434,7 +434,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="email" id="email" class="form-control" placeholder="您的邮箱（方便回信）" required="required">
+                            <input type="email" id="email" class="form-control" placeholder="您的邮箱（方便回信）"
+                                   required="required">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -493,7 +494,8 @@
 <!-- Javascripts
     ================================================== -->
 <script type="text/javascript" src="js/main.js"></script>
-
+<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+<!--获取接口数据，注意charset -->
 <script>
     $(function () {
         $(".age").text(jsGetAge("1990-05-07"));
@@ -507,16 +509,31 @@
             });
             $(".hover-bg .hover-text>i").css({'opacity': '1'});
         }
-        $.ajax({
-            url:"//39.97.229.2:8881/index/hello",
-            type:"post",
-            data:{},
-            dataType:"json",
-            success:function (res) {
-
-            }
-        })
+        init();
     });
+    var returnCityIp = "";
+    var returnCityName = "";
+
+    function init() {
+        try {
+            returnCityIp = returnCitySN["cip"];
+            returnCityName = returnCitySN["cname"];
+            console.log(returnCityIp);
+            console.log(returnCityName)
+            $.ajax({
+                url: "//api.ixxxk.com/index/hello",
+                type: "post",
+                data: {ip: returnCityIp, city: returnCityName},
+                dataType: "json",
+                success: function (res) {
+
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+
+    }
 
     function sendEmail() {
         var name = $("#name").val();
@@ -538,9 +555,15 @@
         }
         alert("发送成功");
         $.ajax({
-            url: "//39.97.229.2:8881/sys/mail/send",
+            url: "//api.ixxxk.com/sys/mail/send",
             type: "post",
-            data: {toUser: email,subject:"主页邮件", text: "发件人：" + name + ",内容：" + message},
+            data: {
+                toUser: email,
+                subject: "主页邮件",
+                text: "发件人：" + name + ",内容：" + message,
+                ip: returnCityIp,
+                city: returnCityName
+            },
             dataType: "json",
             success: function (res) {
 

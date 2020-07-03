@@ -20,8 +20,8 @@ import org.springframework.web.filter.CorsFilter;
 public class CorsConfig {//nohup java -jar mail-0.0.1-SNAPSHOT.jar --spring.profiles.active=pro &
     // 设置允许跨域的源
     private static String[] originsVal = new String[]{
-            "127.0.0.1:8080",
-            "localhost:8080",
+            "127.0.0.1:8881",
+            "localhost:8881",
             "ixxxk.com",
             "www.ixxxk.com"
     };

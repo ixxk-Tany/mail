@@ -2,7 +2,6 @@ package com.ixxxk.mail.controller;
 
 import com.ixxxk.mail.pojo.vo.Result;
 import com.ixxxk.mail.service.SendMailService;
-import com.ixxxk.mail.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description
@@ -31,14 +29,14 @@ public class MailController {
             @RequestParam(value = "toUser") String toUser
             , @RequestParam(value = "subject") String subject
             , @RequestParam(value = "text") String text
-            , HttpServletRequest request) {
+            , @RequestParam(value = "ip", required = false, defaultValue = "未获取到IP") String ip
+            , @RequestParam(value = "city", required = false, defaultValue = "未获取到所在地") String city) {
         log.info("send...............");
-        String ipAddr = IpUtil.getIpAddr(request);
-        boolean b = sendMailService.sendMail("5824519@qq.com", subject+":"+toUser, text, ipAddr);
+        boolean b = sendMailService.sendMail("5824519@qq.com", subject + ":" + toUser, text, ip + " - " + city);
         try {
-            sendMailService.sendMail(toUser,"来自www.ixxxk.com的回信","您的消息已收到，感谢您的来信。","");
-        }catch (Exception e){
-            
+            sendMailService.sendMail(toUser, "来自www.ixxxk.com的回信", "您的消息已收到，感谢您的来信。", "");
+        } catch (Exception e) {
+
         }
         return b ? Result.success() : Result.error("-1", "邮件发送失败，请稍后再试...");
     }

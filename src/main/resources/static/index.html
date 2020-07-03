@@ -534,8 +534,13 @@
         }
 
     }
-
+    var btnClick = false;
     function sendEmail() {
+        if (btnClick) {
+            alert("请勿重复提交！！");
+            return;
+        }
+        btnClick = true;
         var name = $("#name").val();
         var email = $("#email").val();
         var message = $("#message").val();
@@ -553,20 +558,24 @@
             alert('提示\n\n请说点儿什么吧!如: 你好啊!');
             return;
         }
+        var reqData = {
+            toUser: email,
+            subject: "主页邮件",
+            text: "发件人：" + name + ",内容：" + message,
+            ip: returnCityIp,
+            city: returnCityName
+        }
         alert("发送成功");
         $.ajax({
             url: "//api.ixxxk.com/sys/mail/send",
             type: "post",
-            data: {
-                toUser: email,
-                subject: "主页邮件",
-                text: "发件人：" + name + ",内容：" + message,
-                ip: returnCityIp,
-                city: returnCityName
-            },
+            data: reqData,
             dataType: "json",
             success: function (res) {
-
+                $("#name").val("");
+                $("#email").val("");
+                $("#message").val("");
+                btnClick = false;
             }
         })
     }

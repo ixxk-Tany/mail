@@ -1,13 +1,18 @@
 package com.ixxxk.mail.service;
 
-public interface SendMailService {
+import com.ixxxk.mail.pojo.dto.MailDto;
 
+public interface SendMailService {
 	/**
 	 * 发送邮件
-	 *
-	 * @param toUser
-	 * @param subject 标题
-	 * @param text    内容（支持html格式）
+	 * @param mailDto mailDto
+	 * @return boolean
 	 */
-	boolean sendMail(String toUser, String subject, String text, String ip);
+	boolean send(MailDto mailDto);
+
+	/**
+	 * 发送统计邮件
+	 */
+	void sendHello();
+
 }

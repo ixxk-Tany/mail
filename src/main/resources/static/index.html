@@ -525,11 +525,13 @@
             returnCityName = returnCitySN["cname"];
             console.log(returnCityIp);
             console.log(returnCityName)
+            var data = {ip: returnCityIp, city: returnCityName};
             $.ajax({
                 url: "//api.ixxxk.com/index/hello",
                 type: "post",
-                data: {ip: returnCityIp, city: returnCityName},
+                data: JSON.stringify(data),
                 dataType: "json",
+                contentType: "application/json;charset=UTF-8",
                 success: function (res) {
 
                 }
@@ -564,9 +566,9 @@
             return;
         }
         var reqData = {
-            toUser: email,
-            subject: "主页邮件",
-            text: "发件人：" + name + ",内容：" + message,
+            name: name,
+            email: email,
+            text: message,
             ip: returnCityIp,
             city: returnCityName
         }
@@ -574,8 +576,9 @@
         $.ajax({
             url: "//api.ixxxk.com/sys/mail/send",
             type: "post",
-            data: reqData,
+            data: JSON.stringify(data),
             dataType: "json",
+            contentType: "application/json;charset=UTF-8",
             success: function (res) {
                 $("#name").val("");
                 $("#email").val("");

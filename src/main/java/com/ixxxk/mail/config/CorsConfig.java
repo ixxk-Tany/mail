@@ -17,7 +17,9 @@ import org.springframework.web.filter.CorsFilter;
  * 跨域配置
  */
 @Configuration
-public class CorsConfig {//nohup java -jar mail-0.0.1-SNAPSHOT.jar --spring.profiles.active=pro &
+public class CorsConfig {
+    //netstat -nlp|grep 8881
+    //nohup java -jar mail-0.1.jar --spring.profiles.active=pro &
     // 设置允许跨域的源
     private static String[] originsVal = new String[]{
             "127.0.0.1:8881",

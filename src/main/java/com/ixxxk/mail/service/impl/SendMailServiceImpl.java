@@ -1,5 +1,8 @@
 package com.ixxxk.mail.service.impl;
 
+import com.ixxxk.mail.mapper.HelloMapper;
+import com.ixxxk.mail.pojo.dto.MailDto;
+import com.ixxxk.mail.pojo.entity.HelloInfo;
 import com.ixxxk.mail.service.SendMailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -20,9 +26,15 @@ import java.util.Date;
 @Slf4j
 @Service
 public class SendMailServiceImpl implements SendMailService {
-
+	public static final String BR = "<br>";
+	public static final String ENTER = "\r\n";
+	public static final String MY_EMAIL = "5824519@qq.com";
+	public static final String YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss:SSS";
 	@Autowired
 	private JavaMailSender javaMailSender;
+
+	@Resource
+	private HelloMapper helloMapper;
 
 	/**
 	 * 发件人的邮箱地址<br>
@@ -30,6 +42,49 @@ public class SendMailServiceImpl implements SendMailService {
 	 */
 	@Value("${spring.mail.username}")
 	private String serverMail;
+
+	@Override
+	public void sendHello() {
+		List<HelloInfo> helloInfoList = helloMapper.findByYesterday();
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS_SSS);
+		String subject = "访客统计";
+		StringBuffer sb = new StringBuffer();
+		for (HelloInfo helloInfo : helloInfoList) {
+			sb.append("ip：").append(helloInfo.getIp());
+			sb.append(BR);
+			sb.append("城市：").append(helloInfo.getCity());
+			sb.append(BR);
+			sb.append("时间：").append(sdf.format(helloInfo.getCreateTime()));
+			sb.append("---------------------------------------------------------------");
+			sb.append(BR);
+		}
+		this.sendMail(MY_EMAIL, subject, sb.toString(), true);
+	}
+
+	@Override
+	public boolean send(MailDto mailDto) {
+		String subject = "主页邮件";
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS_SSS);
+		String nowDateString = sdf.format(now);
+		StringBuffer sb = new StringBuffer();
+		sb.append("ip：").append(mailDto.getIp());
+		sb.append(BR);
+		sb.append("城市：").append(mailDto.getCity());
+		sb.append(BR);
+		sb.append("时间：").append(nowDateString);
+		sb.append(BR);
+		sb.append("姓名：").append(mailDto.getName());
+		sb.append(BR);
+		sb.append("发件人：").append(mailDto.getEmail());
+		sb.append(BR);
+		sb.append("内容：");
+		sb.append("    ").append(mailDto.getText());
+		log.info("send...............");
+		boolean b = this.sendMail(MY_EMAIL, subject, sb.toString(), true);
+		this.sendMail(mailDto.getEmail(), "Tany. 的回信", "您的消息已收到，感谢您的来信。", false);
+		return b;
+	}
 
 	/**
 	 * 发送邮件
@@ -39,18 +94,17 @@ public class SendMailServiceImpl implements SendMailService {
 	 * @param text    正文
 	 * @return
 	 */
-	@Override
-	public boolean sendMail(String toUser, String subject, String text, String ip) {
+	private boolean sendMail(String toUser, String subject, String text, boolean isHtml) {
 		try {
-			Date now = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-			javax.mail.internet.MimeMessage message = javaMailSender.createMimeMessage();
-			text += ",ip:" + ip + ",时间：" + sdf.format(now);
+			if (!isHtml) {
+				text = text.replaceAll(BR, ENTER);
+			}
+			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(serverMail);
 			helper.setTo(toUser);
 			helper.setSubject(subject);
-			helper.setText(text, true);
+			helper.setText(text, isHtml);
 			javaMailSender.send(message);
 			log.info("发送邮件to:{},主题：{},内容：{}", toUser, subject, text);
 		} catch (Exception e) {

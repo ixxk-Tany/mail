@@ -54,6 +54,7 @@ public class HelloServiceImpl implements HelloService {
                     sb.append("城市：").append(info.getCity());
                     sb.append(Consts.BR);
                     sb.append("时间：").append(sdf.format(info.getCreateTime()));
+                    sb.append(Consts.BR);
                     sb.append("---------------------------------------------------------------");
                     sb.append(Consts.BR);
                 }

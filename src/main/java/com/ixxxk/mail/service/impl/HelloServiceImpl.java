@@ -44,7 +44,7 @@ public class HelloServiceImpl implements HelloService {
             int between = 5;
             long l = helloInfo.getId() % between;
             if (l == 0) {
-                List<HelloInfo> helloInfoList = helloMapper.findByIdBetween(helloInfo.getId() - between, helloInfo.getId());
+                List<HelloInfo> helloInfoList = helloMapper.findByIdBetween(helloInfo.getId() - between + 1, helloInfo.getId());
                 SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS);
                 String subject = "访客统计";
                 StringBuffer sb = new StringBuffer();

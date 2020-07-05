@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * 描述: 
@@ -24,7 +23,6 @@ public class HelloServiceImpl implements HelloService {
     @Override
     public boolean save(HelloInfoDto helloInfoDto) {
         HelloInfo hellolInfo = new HelloInfo();
-        hellolInfo.setId(UUID.randomUUID().toString());
         hellolInfo.setIp(helloInfoDto.getIp());
         hellolInfo.setCity(helloInfoDto.getCity());
         hellolInfo.setCreateTime(new Date());

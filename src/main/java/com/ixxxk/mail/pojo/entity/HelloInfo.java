@@ -26,8 +26,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class HelloInfo extends Model<HelloInfo> {
     private static final long serialVersionUID = -2369336483506690528L;
-    @TableId(type = IdType.ASSIGN_UUID)
-    private String id;
+    @TableId(type = IdType.AUTO)
+    private Long id;
     private String ip;
     private String city;
     private Date createTime;

@@ -15,4 +15,5 @@ public interface SendMailService {
 	 */
 	void sendHello();
 
+	boolean sendMail(String toUser, String subject, String text, boolean isHtml);
 }

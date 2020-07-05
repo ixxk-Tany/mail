@@ -14,7 +14,7 @@ class MailApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(helloMapper.findByYesterday());
+        System.out.println(helloMapper.findByIdBetween(2L, 3L));
     }
 
 }

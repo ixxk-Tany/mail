@@ -24,4 +24,13 @@ public interface HelloMapper extends BaseMapper<HelloInfo> {
      */
     @Select("select * from hello_info where TO_DAYS(now()) - TO_DAYS(create_time) = 1")
     List<HelloInfo> findByYesterday();
+
+    /**
+     *
+     * @param id
+     * @param id2
+     * @return
+     */
+    @Select("select * from hello_info where id between #{id} and #{id2}")
+    List<HelloInfo> findByIdBetween(Long id, Long id2);
 }

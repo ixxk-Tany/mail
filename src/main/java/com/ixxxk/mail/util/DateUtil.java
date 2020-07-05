@@ -9,4 +9,5 @@ package com.ixxxk.mail.util;
  * @Version: 3.0.1
  */
 public class DateUtil {
+    public static final String YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss:SSS";
 }

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Java工程师简历-java工程师-java软件开发-java工程师简历-java高级工程师</title>
     <meta name="description" content="本人英文名TanYong，是一名Java工程师,对Java和编程技术非常热爱，做过很多技术方面的东西，对我有意向的公司和猎头可以QQ联系我或者给我发邮件，谢谢！">
-    <meta name="keywords" content="TanYong简历，Java工程师，求职Java，Java博客"/>
-    <meta name="author" content="TanYong，个人博客:http://www.ixxxk.com">
+    <meta name="keywords" content="Tany简历，Java工程师，求职Java，Java博客"/>
+    <meta name="author" content="Tany，个人博客:https://www.ixxxk.com">
 
     <!-- Favicons
         ================================================== -->
@@ -292,7 +292,7 @@
             <div class="col-md-3 col-sm-3">
                 <div class="achivement-box">
                     <i class="fa fa-smile-o"></i>
-                    <span class="count age">0</span>
+                    <span class="count project_experience">0</span>
                     <h4>Age Years</h4>
                 </div>
             </div>
@@ -440,8 +440,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="内容（想说的话）"
-                              required></textarea>
+                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="内容（想说的话）" required></textarea>
                     <p class="help-block text-danger"></p>
                 </div>
                 <div id="success"></div>
@@ -482,7 +481,6 @@
         </div>
     </div>
 </nav>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script type="text/javascript" src="js/jquery.1.11.1.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -495,15 +493,13 @@
 <script type="text/javascript" src="js/jqBootstrapValidation.js"></script>
 <script type="text/javascript" src="js/contact_me.js"></script>
 <script src="js/owl.carousel.js"></script>
-
+<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
 <!-- Javascripts
     ================================================== -->
-<script type="text/javascript" src="js/main.js"></script>
-<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script type="text/javascript" src="js/main.js?v=1"></script>
 <!--获取接口数据，注意charset -->
 <script>
     $(function () {
-        $(".age").text(jsGetAge("1990-05-07"));
         var u = navigator.userAgent;
         if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 || u.indexOf('iPhone') > -1 || u.indexOf('Windows Phone') > -1 || navigator.userAgent.indexOf("iPad") > -1) {
             $(".hover-bg .hover-text").css({'opacity': '1'});
@@ -514,89 +510,9 @@
             });
             $(".hover-bg .hover-text>i").css({'opacity': '1'});
         }
+
         init();
     });
-    var returnCityIp = "";
-    var returnCityName = "";
-
-    function init() {
-        try {
-            returnCityIp = returnCitySN["cip"];
-            returnCityName = returnCitySN["cname"];
-            console.log(returnCityIp);
-            console.log(returnCityName)
-            var data = {ip: returnCityIp, city: returnCityName};
-            $.ajax({
-                url: "//api.ixxxk.com/index/hello",
-                type: "post",
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                success: function (res) {
-
-                }
-            })
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
-    var btnClick = false;
-    function sendEmail() {
-        if (btnClick) {
-            alert("请勿重复提交！！");
-            return;
-        }
-        btnClick = true;
-        var name = $("#name").val();
-        var email = $("#email").val();
-        var message = $("#message").val();
-        var myreg = /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-        if (name == "") {
-            alert('提示\n\n请填写您的姓名!如: Tany');
-            return;
-        }
-        if (!myreg.test(email)) {
-            alert('提示\n\n请输入有效的E_mail！如: admin@ixxxk.com');
-            myreg.focus();
-            return false;
-        }
-        if (message == "") {
-            alert('提示\n\n请说点儿什么吧!如: 你好啊!');
-            return;
-        }
-        var reqData = {
-            name: name,
-            email: email,
-            text: message,
-            ip: returnCityIp,
-            city: returnCityName
-        }
-        alert("发送成功");
-        $.ajax({
-            url: "//api.ixxxk.com/sys/mail/send",
-            type: "post",
-            data: JSON.stringify(reqData),
-            dataType: "json",
-            contentType: "application/json;charset=UTF-8",
-            success: function (res) {
-                $("#name").val("");
-                $("#email").val("");
-                $("#message").val("");
-                btnClick = false;
-            }
-        })
-    }
-
-    function jsGetAge(strBirthday) {
-        var strBirthdayArr = strBirthday.split("-");
-        var d = new Date();
-        var yearDiff = d.getFullYear() - strBirthdayArr[0];
-        var monthDiff = d.getMonth() + 1 - strBirthdayArr[1];
-        var dayDiff = d.getDate() - strBirthdayArr[2];
-        var age = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? yearDiff - 1 : yearDiff; //判断有没有到生日,没到就减1
-        return age < 0 ? 0 : age;
-    }
 </script>
 </body>
 </html>

@@ -40,23 +40,25 @@ public class HelloServiceImpl implements HelloService {
         helloInfo.setCity(helloInfoDto.getCity());
         helloInfo.setCreateTime(new Date());
         boolean insert = helloInfo.insert();
-        int between = 5;
-        long l = helloInfo.getId() % between;
-        if (l == 0) {
-            List<HelloInfo> helloInfoList = helloMapper.findByIdBetween(helloInfo.getId() - between, helloInfo.getId());
-            SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS);
-            String subject = "访客统计";
-            StringBuffer sb = new StringBuffer();
-            for (HelloInfo info : helloInfoList) {
-                sb.append("ip：").append(info.getIp());
-                sb.append(Consts.BR);
-                sb.append("城市：").append(info.getCity());
-                sb.append(Consts.BR);
-                sb.append("时间：").append(sdf.format(info.getCreateTime()));
-                sb.append("---------------------------------------------------------------");
-                sb.append(Consts.BR);
+        if (insert) {
+            int between = 5;
+            long l = helloInfo.getId() % between;
+            if (l == 0) {
+                List<HelloInfo> helloInfoList = helloMapper.findByIdBetween(helloInfo.getId() - between, helloInfo.getId());
+                SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.YYYY_MM_DD_HH_MM_SS_SSS);
+                String subject = "访客统计";
+                StringBuffer sb = new StringBuffer();
+                for (HelloInfo info : helloInfoList) {
+                    sb.append("ip：").append(info.getIp());
+                    sb.append(Consts.BR);
+                    sb.append("城市：").append(info.getCity());
+                    sb.append(Consts.BR);
+                    sb.append("时间：").append(sdf.format(info.getCreateTime()));
+                    sb.append("---------------------------------------------------------------");
+                    sb.append(Consts.BR);
+                }
+                sendMailService.sendMail(Consts.MY_EMAIL, subject, sb.toString(), true);
             }
-            sendMailService.sendMail(Consts.MY_EMAIL, subject, sb.toString(), true);
         }
         return insert;
     }
